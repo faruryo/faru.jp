@@ -9,11 +9,11 @@ jobs:
       - run:
           name: Push image
           command: |
-            docker build -t $DOCKERHUB_USERNAME/faru.jp:$CIRCLE_SHA1 .
+            docker build -t faruryo/faru.jp:$CIRCLE_SHA1 .
             echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
-            docker tag $DOCKERHUB_USERNAME/faru.jp:$CIRCLE_SHA1 $DOCKERHUB_USERNAME/faru.jp:latest
-            docker push $DOCKERHUB_USERNAME/faru.jp:$CIRCLE_SHA1
-            docker push $DOCKERHUB_USERNAME/faru.jp:latest
+            docker tag faruryo/faru.jp:$CIRCLE_SHA1 $DOCKERHUB_USERNAME/faru.jp:latest
+            docker push faruryo/faru.jp:$CIRCLE_SHA1
+            docker push faruryo/faru.jp:latest
 
   manifest:
     working_directory: ~/repo
@@ -40,7 +40,10 @@ jobs:
             - "38:4e:17:28:8f:7a:75:c6:17:ae:c9:9c:38:09:ab:3f"
       - run: echo -e "Host bitbucket.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
       - run: git clone -b master git@bitbucket.org:faru_ryo/kubernetes-common.git
-      - run: kubectl patch -f kubernetes-common/web/www-deploy.yaml --dry-run -o yaml -p '{"spec":{"template":{"spec":{"containers":[{"name":"farujp","image":"faruryo/faru.jp:'$CIRCLE_SHA1'"}]}}}}' > www-deploy.yaml
+      - run: >
+          kubectl patch -f kubernetes-common/web/www-deploy.yaml --dry-run -o yaml
+          -p '{"spec":{"template":{"spec":{"containers":[{"name":"farujp","image":"faruryo/faru.jp:'"$CIRCLE_SHA1"'"}]}}}}'
+          > www-deploy.yaml
       - run: cp -f www-deploy.yaml kubernetes-common/web/www-deploy.yaml
       - run: |
           cd kubernetes-common
