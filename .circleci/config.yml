@@ -14,12 +14,39 @@ jobs:
             docker tag $DOCKERHUB_USERNAME/faru.jp:$CIRCLE_SHA1 $DOCKERHUB_USERNAME/faru.jp:latest
             docker push $DOCKERHUB_USERNAME/faru.jp:$CIRCLE_SHA1
             docker push $DOCKERHUB_USERNAME/faru.jp:latest
+
+  manifest:
+    working_directory: /app
+    docker:
+      - image: faruryo/gitops-build-image
+    steps:
+      - setup_remote_docker
+      - add_ssh_keys:
+          fingerprints:
+            - "97:91:9f:90:68:30:f0:1b:b2:13:f4:4e:af:68:36:6a"
+      - run: git clone -b release/$CIRCLE_SHA1 git@bitbucket.org:faru_ryo/kubernetes-common.git
+      - run: kubectl patch -f kubernetes-common/web/www-deploy.yaml --dry-run -o yaml -p '{"spec":{"template":{"spec":{"containers":[{"name":"farujp","image":"faruryo/faru.jp:hogehoge"}]}}}}' > www-deploy.yaml
+      - run: cp -f www-deploy.yaml kubernetes-common/web/www-deploy.yaml
+      - run: |
+          cd kubernetes-common
+          git add web/www-deploy.yaml
+          git config --global user.email circleci
+          git config --global user.name circleci
+          git commit -m "update www.faru.jp $CIRCLE_SHA1"
+          git push origin release/$CIRCLE_SHA1
+
 workflows:
   version: 2
   build-deploy:
     jobs:
       - build:
+          context: DOCKERHUB
           filters:
             branches:
               only: master
-          context: DOCKERHUB
+      - manifest:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
