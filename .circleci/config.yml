@@ -17,10 +17,20 @@ jobs:
 
   manifest:
     working_directory: ~/repo
-    docker:
-      - image: faruryo/gitops-build-image
+    machine:
+      image: 'circleci/classic:201808-01'
     steps:
-      - setup_remote_docker
+      - kube-orb/install
+      - run:
+          command: >
+            curl -Lo minikube
+            https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+            \
+              && chmod +x minikube
+            sudo cp minikube /usr/local/bin && rm minikube
+
+            sudo -E minikube start --vm-driver=none --cpus 2 --memory 2048
+          name: Start minikube
       - add_ssh_keys:
           fingerprints:
             - "38:4e:17:28:8f:7a:75:c6:17:ae:c9:9c:38:09:ab:3f"
@@ -51,3 +61,7 @@ workflows:
           filters:
             branches:
               only: master
+
+orbs:
+  kube-orb: circleci/kubernetes@1.0.0
+version: 2.1
