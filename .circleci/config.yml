@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   build:
     machine:
@@ -18,7 +18,7 @@ jobs:
   manifest:
     working_directory: ~/repo
     machine:
-      image: 'circleci/classic:201808-01'
+      image: "circleci/classic:201808-01"
     steps:
       - kube-orb/install
       - run:
@@ -64,4 +64,3 @@ workflows:
 
 orbs:
   kube-orb: circleci/kubernetes@1.0.0
-version: 2.1
