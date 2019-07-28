@@ -51,7 +51,7 @@ jobs:
           git push origin master:release/$CIRCLE_SHA1
       - run: >
           curl https://api.bitbucket.org/2.0/repositories/faru_ryo/kubernetes-common/pullrequests
-          -u $BITBUCKET_USERNAME:BITBUCKET_PASSWORD
+          -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD
           -X POST
           -H 'Content-Type: application/json'
           -d '{"title":"test-title","source":{"branch":{"name":"release/5ba0178114bae3f5f5dc7df2f7370f9691d40c37"}},"destination":{"branch":{"name":"master"}}}'
