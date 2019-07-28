@@ -16,7 +16,7 @@ jobs:
             docker push $DOCKERHUB_USERNAME/faru.jp:latest
 
   manifest:
-    working_directory: /app
+    working_directory: ~/repo
     docker:
       - image: faruryo/gitops-build-image
     steps:
