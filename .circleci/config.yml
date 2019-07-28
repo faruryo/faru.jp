@@ -33,9 +33,7 @@ jobs:
 
           name: Start minikube
       - run:
-          command: |
-            sudo mv /home/circleci/.kube /home/circleci/.minikube $HOME
-            sudo chown -R $USER $HOME/.kube $HOME/.minikube
+          command: sudo chown -R $USER $HOME/.kube $HOME/.minikube
           name: Setup kube
       - add_ssh_keys:
           fingerprints:
