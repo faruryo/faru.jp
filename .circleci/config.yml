@@ -40,7 +40,7 @@ jobs:
             - "38:4e:17:28:8f:7a:75:c6:17:ae:c9:9c:38:09:ab:3f"
       - run: echo -e "Host bitbucket.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
       - run: git clone -b master git@bitbucket.org:faru_ryo/kubernetes-common.git
-      - run: kubectl patch -f kubernetes-common/web/www-deploy.yaml --dry-run -o yaml -p '{"spec":{"template":{"spec":{"containers":[{"name":"farujp","image":"faruryo/faru.jp:$CIRCLE_SHA1"}]}}}}' > www-deploy.yaml
+      - run: kubectl patch -f kubernetes-common/web/www-deploy.yaml --dry-run -o yaml -p '{"spec":{"template":{"spec":{"containers":[{"name":"farujp","image":"faruryo/faru.jp:'$CIRCLE_SHA1'"}]}}}}' > www-deploy.yaml
       - run: cp -f www-deploy.yaml kubernetes-common/web/www-deploy.yaml
       - run: |
           cd kubernetes-common
@@ -49,6 +49,12 @@ jobs:
           git config --global user.name circleci
           git commit -m "update www.faru.jp $CIRCLE_SHA1"
           git push origin master:release/$CIRCLE_SHA1
+      - run: >
+          curl https://api.bitbucket.org/2.0/repositories/faru_ryo/kubernetes-common/pullrequests
+          -u $BITBUCKET_USERNAME:BITBUCKET_PASSWORD
+          -X POST
+          -H 'Content-Type: application/json'
+          -d '{"title":"test-title","source":{"branch":{"name":"release/5ba0178114bae3f5f5dc7df2f7370f9691d40c37"}},"destination":{"branch":{"name":"master"}}}'
 
 workflows:
   version: 2
@@ -60,6 +66,7 @@ workflows:
             branches:
               only: master
       - manifest:
+          context: BITBUCKET
           requires:
             - build
           filters:
