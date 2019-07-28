@@ -11,7 +11,7 @@ jobs:
           command: |
             docker build -t $DOCKERHUB_USERNAME/faru.jp:$CIRCLE_SHA1 .
             echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
-            docker tag $DOCKERHUB_USERNAME/faru.jp:$CIRCLE_SHA1 $DOCKERHUB_USERNAME/faru.jp/sample:latest
+            docker tag $DOCKERHUB_USERNAME/faru.jp:$CIRCLE_SHA1 $DOCKERHUB_USERNAME/faru.jp:latest
             docker push $DOCKERHUB_USERNAME/faru.jp:$CIRCLE_SHA1
             docker push $DOCKERHUB_USERNAME/faru.jp:latest
 workflows:
