@@ -48,7 +48,7 @@ jobs:
           git config --global user.email circleci
           git config --global user.name circleci
           git commit -m "update www.faru.jp $CIRCLE_SHA1"
-          git push origin release/$CIRCLE_SHA1
+          git push origin master:release/$CIRCLE_SHA1
 
 workflows:
   version: 2
