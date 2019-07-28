@@ -42,7 +42,7 @@ jobs:
       - run: git clone -b master git@bitbucket.org:faru_ryo/kubernetes-common.git
       - run: >
           kubectl patch -f kubernetes-common/web/www-deploy.yaml --dry-run -o yaml
-          -p '{"spec":{"template":{"spec":{"containers":[{"name":"farujp","image":"faruryo/faru.jp:'"$CIRCLE_SHA1"'"}]}}}}'
+          -p '{"spec":{"template":{"spec":{"containers":[{"name":"farujp","image":"faruryo/faru.jp:'$CIRCLE_SHA1'"}]}}}}'
           > www-deploy.yaml
       - run: cp -f www-deploy.yaml kubernetes-common/web/www-deploy.yaml
       - run: |
@@ -57,7 +57,7 @@ jobs:
           -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD
           -X POST
           -H 'Content-Type: application/json'
-          -d '{"title":"test-title","source":{"branch":{"name":"release/5ba0178114bae3f5f5dc7df2f7370f9691d40c37"}},"destination":{"branch":{"name":"master"}}}'
+          -d '{"title":"update www.faru.jp '$CIRCLE_SHA1'","source":{"branch":{"name":"'$CIRCLE_SHA1'"}},"destination":{"branch":{"name":"master"}}}'
 
 workflows:
   version: 2
