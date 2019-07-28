@@ -24,6 +24,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "38:4e:17:28:8f:7a:75:c6:17:ae:c9:9c:38:09:ab:3f"
+      - run: mkdir ~/.ssh/ && echo -e "Host bitbucket.org\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run: git clone -b release/$CIRCLE_SHA1 git@bitbucket.org:faru_ryo/kubernetes-common.git
       - run: kubectl patch -f kubernetes-common/web/www-deploy.yaml --dry-run -o yaml -p '{"spec":{"template":{"spec":{"containers":[{"name":"farujp","image":"faruryo/faru.jp:hogehoge"}]}}}}' > www-deploy.yaml
       - run: cp -f www-deploy.yaml kubernetes-common/web/www-deploy.yaml
