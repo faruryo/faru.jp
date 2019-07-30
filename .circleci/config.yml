@@ -25,7 +25,9 @@ jobs:
             - "38:4e:17:28:8f:7a:75:c6:17:ae:c9:9c:38:09:ab:3f"
       - run:
           name: fingerprint解決
-          command: echo -e "Host bitbucket.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+          command: |
+            mkdir -p ~/.ssh
+            echo -e "Host bitbucket.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
       - run:
           name: clone manifest
           command: git clone -b master git@bitbucket.org:faru_ryo/kubernetes-common.git
