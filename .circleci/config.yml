@@ -55,7 +55,7 @@ jobs:
             -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD
             -X POST
             -H 'Content-Type: application/json'
-            -d '{"title":"update www.faru.jp '$CIRCLE_SHA1'","description":"'$CIRCLE_PULL_REQUEST'に対するmanifest更新","source":{"branch":{"name":"'release/$CIRCLE_SHA1'"}},"destination":{"branch":{"name":"master"}},"close_source_branch":true}'
+            -d '{"title":"update www.faru.jp '$CIRCLE_SHA1'","description":"https://github.com/faruryo/faru.jp/commit/'$CIRCLE_SHA1' に対するmanifest更新","source":{"branch":{"name":"'release/$CIRCLE_SHA1'"}},"destination":{"branch":{"name":"master"}},"close_source_branch":true}'
 
 workflows:
   version: 2
