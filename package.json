@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "3.18.1",
+    "core-js": "3.19.0",
     "vue": "3.2.20"
   },
   "devDependencies": {
@@ -18,7 +18,7 @@
     "@vue/compiler-sfc": "3.2.20",
     "babel-eslint": "10.1.0",
     "eslint": "6.8.0",
-    "eslint-plugin-vue": "7.18.0"
+    "eslint-plugin-vue": "7.20.0"
   },
   "eslintConfig": {
     "root": true,
