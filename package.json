@@ -17,7 +17,7 @@
     "@vue/cli-service": "4.5.19",
     "@vue/compiler-sfc": "3.2.40",
     "babel-eslint": "10.1.0",
-    "eslint": "6.8.0",
+    "eslint": "9.2.0",
     "eslint-plugin-vue": "9.5.1"
   },
   "eslintConfig": {
