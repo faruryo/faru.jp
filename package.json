@@ -9,13 +9,13 @@
   },
   "dependencies": {
     "core-js": "3.25.3",
-    "vue": "3.2.40"
+    "vue": "3.4.34"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "4.5.19",
     "@vue/cli-plugin-eslint": "4.5.19",
     "@vue/cli-service": "4.5.19",
-    "@vue/compiler-sfc": "3.2.40",
+    "@vue/compiler-sfc": "3.4.34",
     "babel-eslint": "10.1.0",
     "eslint": "6.8.0",
     "eslint-plugin-vue": "9.5.1"
